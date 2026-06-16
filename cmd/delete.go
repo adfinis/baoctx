@@ -3,15 +3,16 @@ package cmd
 import (
 	"errors"
 	"fmt"
+
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
-var deleteVaultCmd = &cobra.Command{
+var deleteOpenbaoCmd = &cobra.Command{
 	Use:     "delete",
 	Short:   "delete removes a context profile",
 	Long:    `delete a context with the delete command.`,
-	Example: `target vault delete -n example`,
+	Example: `baoctx openbao delete example`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 1 {
 			return errors.New("requires a name argument")
@@ -21,118 +22,13 @@ var deleteVaultCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		nameToDelete := args[0]
 
-		// Check if the Vault profile with the given name exists and delete it
-		if _, exists := c.Vault[args[0]]; exists {
-			delete(c.Vault, args[0])
-			viper.Set("vault", c.Vault)
+		if _, exists := c.OpenBao[args[0]]; exists {
+			delete(c.OpenBao, args[0])
+			viper.Set("openbao", c.OpenBao)
 			viper.WriteConfig()
-			fmt.Printf("Deleted Vault profile '%s'\n", nameToDelete)
+			fmt.Printf("Deleted OpenBao profile '%s'\n", nameToDelete)
 		} else {
-			fmt.Printf("Vault profile '%s' not found\n", nameToDelete)
-		}
-	},
-}
-
-var deleteConsulCmd = &cobra.Command{
-	Use:     "delete",
-	Short:   "delete removes a context profile",
-	Long:    `delete a context with the delete command.`,
-	Example: `target consul delete -n example`,
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) != 1 {
-			return errors.New("requires a name argument")
-		}
-		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		nameToDelete := args[0]
-
-		if _, exists := c.Consul[args[0]]; exists {
-			delete(c.Consul, args[0])
-			viper.Set("consul", c.Consul)
-			viper.WriteConfig()
-			fmt.Printf("Deleted Consul profile '%s'\n", nameToDelete)
-		} else {
-			fmt.Printf("Consul profile '%s' not found\n", nameToDelete)
-		}
-	},
-}
-
-var deleteNomadCmd = &cobra.Command{
-	Use:     "delete",
-	Short:   "delete removes a context profile",
-	Long:    `delete a context with the delete command.`,
-	Example: `target nomad delete -n example`,
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) != 1 {
-			return errors.New("requires a name argument")
-		}
-		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		nameToDelete := args[0]
-
-		if _, exists := c.Nomad[args[0]]; exists {
-			delete(c.Nomad, args[0])
-			viper.Set("nomad", c.Nomad)
-			viper.WriteConfig()
-			fmt.Printf("Deleted Nomad profile '%s'\n", nameToDelete)
-		} else {
-			fmt.Printf("Nomad profile '%s' not found\n", nameToDelete)
-		}
-	},
-}
-
-var deleteBoundaryCmd = &cobra.Command{
-	Use:     "delete",
-	Short:   "delete removes a context profile",
-	Long:    `delete a context with the delete command.`,
-	Example: `target boundary delete -n example`,
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) != 1 {
-			return errors.New("requires a name argument")
-		}
-		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		nameToDelete := args[0]
-
-		if _, exists := c.Boundary[args[0]]; exists {
-			delete(c.Boundary, args[0])
-			viper.Set("boundary", c.Boundary)
-			viper.WriteConfig()
-			fmt.Printf("Deleted Boundary profile '%s'\n", nameToDelete)
-		} else {
-			fmt.Printf("Boundary profile '%s' not found\n", nameToDelete)
-		}
-	},
-}
-
-var deleteTerraformCmd = &cobra.Command{
-	Use:     "delete",
-	Short:   "delete removes a context profile",
-	Long:    `delete a context with the delete command.`,
-	Example: `target terraform delete -n example`,
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) != 1 {
-			return errors.New("requires a name argument")
-		}
-		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		nameToDelete := args[0]
-
-		// Check if the Vault profile with the given name exists and delete it
-		if _, exists := c.Terraform[args[0]]; exists {
-			delete(c.Terraform, args[0])
-			viper.Set("terraform", c.Terraform)
-			err := viper.WriteConfig()
-			if err != nil {
-				return
-			}
-			fmt.Printf("Deleted Terraform profile '%s'\n", nameToDelete)
-		} else {
-			fmt.Printf("Terraform profile '%s' not found\n", nameToDelete)
+			fmt.Printf("OpenBao profile '%s' not found\n", nameToDelete)
 		}
 	},
 }

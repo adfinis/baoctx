@@ -1,176 +1,106 @@
-# Target CLI
+# baoctx
 
 [![goreleaser](https://github.com/adfinis/baoctx/actions/workflows/release.yaml/badge.svg)](https://github.com/adfinis/baoctx/actions/workflows/release.yaml)
 
-A CLI tool to manage context profiles for HashiCorp products.  This allows you to save connection and configuration details, which would otherwise be set using Environment Variables into context profiles and gives the ability to switch between different profiles as required and set default context profiles.
+A CLI tool to manage context profiles for [OpenBao](https://openbao.org). This allows you to save connection and configuration details, which would otherwise be set using environment variables — into named context profiles, and easily switch between them.
 
 
 ### Installation
 
-**Mac / Linux via Brew**
-
-```shell
-brew tap devops-rob/tap && \
-  brew install target
-```
-
-**Linux Quick Install**
-
-```shell
-curl https://raw.githubusercontent.com/devops-rob/target-cli/main/install.sh | bash
-```
-
 **Releases**
 
-Binaries can be downloaded for the releases page.
+Binaries can be downloaded from the releases page.
 
 [https://github.com/adfinis/baoctx/releases](https://github.com/adfinis/baoctx/releases)
 
 ### Example use case
 
-There are two vault clusters, one for Dev (<http://dev-vault:8200>) and one for Prod (<https://prod-vault:8200>).
+There are two OpenBao clusters, one for Dev (<http://dev-openbao:8200>) and one for Prod (<https://prod-openbao:8200>).
 
-Running Vault CLI commands locally will by default attempt to connect to <https://localhost:8200>.  To connect to another cluster, you need to know and remember the connection details and set a Vault environment variable. When you want to switch to a different cluster, you again need to set the environment variable.  Target allows you to save multiple connection details into context profiles and easily switch between them as you require.
+Running `bao` CLI commands locally will by default attempt to connect to <https://localhost:8200>. To connect to another cluster, you need to set the appropriate `BAO_*` environment variables. `baoctx` lets you save multiple sets of connection details into context profiles and switch between them easily.
 
 ### What Is a Context Profile?
 
-A context profile is a grouping of configuration parameters required to perform an action against one of the supported HashiCorp Tools. A vault example is a context profile made of an `endpoint` pointing to `https://prod-vault:8200`, a `namespace` pointing to `admin/target`, and a `token` pointing to `s.12345790asdfghjklpoi`. This would render the following commands `export VAULT_ADDR=https://prod-vault:8200; export VAULT_NAMESPACE=admin/target; export VAULT_TOKEN=s.12345790asdfghjklpoi`. This can then be used with the `eval` command to set these environment variables in the current shell session.
+A context profile is a named set of configuration parameters for an OpenBao instance. For example, a `prod` context profile might have an `endpoint` of `https://prod-openbao:8200`, a `namespace` of `admin/prod`, and a `token`. Selecting that profile renders the corresponding `export BAO_ADDR=...; export BAO_NAMESPACE=...; export BAO_TOKEN=...` commands, which can be applied to the current shell with `eval`.
+
 ### Example usage
 
 ```shell
-eval $(target vault select prod)
+eval $(baoctx openbao select prod)
 ```
 
-### Current Supported Tools
+### Supported Tools
 
-- Terraform
-- Vault
-- Boundary
-- Consul
-- Nomad
+- OpenBao
 
-### Configuring Target CLI For Your Shell
+### Configuring baoctx For Your Shell
 
-Target CLI allows engineers to set default context profiles that are automatically loaded into your shell session via Environment Variables. In order for this to work, you must configure your shell's start up scripts to load in Target CLI defaults.
-
-For example, to configure Target CLI for zsh, we need to point the CLI at our `zshrc file`. For most users, this will be located at `~/.zshrc`.
-
-To configure Target CLI for this shell type, run the following command
+`baoctx` can set default context profiles that are automatically loaded into new shell sessions via environment variables. To enable this, configure your shell's startup script with:
 
 ```shell
-target configure --path "~/.zshrc"
+baoctx config --path "~/.zshrc"
 ```
 
-This will write a small helper script to the file that will come into effect when a new shell session is loaded.
+This appends a small helper script that sources all defaults when a new shell session starts.
 
-### Terraform
+### OpenBao
 
-This is designed to store sets of terraform variables into profiles to allow for easy switching. 
-
-#### Example Use case
-
-Let's say there are three environments, dev, test, and prod. Each environment is deployed and configured with Terraform. Configuration parameters are set using Terraform variables; however, each environment should be configured with its own naming convention. 
-
-- `dev` has resource names prefixed with `dev-`
-- `test` has resource names prefixed with `test-`
-- `prod` has resource names prefixed with `prod-`
-
-To configure a set of variables for each environment, we can set up a dev context profile where the variable values are set accordingly, and do the same for test and prod context profiles. This means to deploy to a specific environment, an operator can switch context before applying their terraform code.
-
-**Create Example**
+#### Create Example
 
 ```shell
-target terraform create dev \
-  --var "aws_region=eu-west1" \
-  --var "vpc_name=dev-vpc" \
-  --var "ec2_instance_name=dev-droid-vm"
-```
-
-This will create a context profile named `dev` with 3 terraform variables, `aws_region`, `vpc_name`, and `ec2_instance_name`
-
-**Update Example**
-
-```shell
-target terraform update example \
-  --var "aws_region=eu-west2" \
-  --var "vpc_name=dev" \
-  --var "ec2_instance_name=dev-starship-vm"
-```
-
-This will update the values of the `dev` context profile created in the previous step
-
-**Delete Example**
-
-```shell
-target terraform delete dev
-```
-
-This will delete the context profile named `dev`
-
-### Vault, Consul, Nomad and Boundary
-
-Each of these tool sub commands work in the same way using the available flags for each tool specific argument. Below are some examples using Vault
-
-**Create Example**
-
-```shell
-target vault create staging \
-  --endpoint "https://staging-vault.target:8200" \
-  --cacert "your CA cert" \
-  --cert "your cert" \
-  --key "your key" \
+baoctx openbao create staging \
+  --endpoint "https://staging-openbao.example.com:8200" \
+  --cacert "/path/to/ca.pem" \
+  --cert "/path/to/client.pem" \
+  --key "/path/to/client-key.pem" \
   --skip-verify true \
   --cli-no-colour true \
   --client-timeout "60s" \
   --format "json"
 ```
 
-**Update Example**
+#### Update Example
 
 ```shell
-target vault update staging \
-  --endpoint "https://staging-vault.com:8200" \
-  --cacert "your new CA cert" \
-  --cert "your cert" \
-  --key "your key" \
+baoctx openbao update staging \
+  --endpoint "https://staging-openbao.example.com:8200" \
+  --cacert "/path/to/new-ca.pem" \
   --skip-verify true \
   --format "json"
 ```
 
-**Delete Example**
+#### Delete Example
 
 ```shell
-target vault delete staging
+baoctx openbao delete staging
 ```
 
-**List Example**
+#### List Example
 
 ```shell
-target vault list
+baoctx openbao list
 ```
 
 ### Setting Default Context Profiles
 
-Setting the default or changing the default context profile for a tool can be done with the `set-default` sub command. 
+Set a default context profile with the `set-default` sub command:
 
 ```shell
-target vault set-default staging
+baoctx openbao set-default staging
 ```
 
-Once a default has been set, a new shell will need to be launch in order for the changes to take effect. All new shell session swill spawn with your defaults as set.
+Once a default has been set, new shell sessions will spawn with those environment variables already exported.
 
-### Switching Context profiles
+### Switching Context Profiles
 
-This can be done using the `select` sub command:
+Switch context using the `select` sub command:
 
 ```shell
-target vault select dev
+baoctx openbao select dev
 ```
 
-This will print all `export` commands for the selected context profile. 
-
-In order for this to take effect in the current shell session, the above command will need to be wrapped in an `eval` command:
+This prints all `export BAO_*` commands for the selected context profile. To apply them in the current shell:
 
 ```shell
-eval $(target vault select dev)
+eval $(baoctx openbao select dev)
 ```

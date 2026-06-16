@@ -1,24 +1,135 @@
+---
+version: 2
+
+before:
+  hooks:
+    - go mod tidy
+    - rm -rf completions manpages
+    - mkdir completions manpages
+    - rm -rf completions
+    - mkdir completions
+    - sh -c 'go run . completion "bash" >./completions/{{ .ProjectName }}.bash'
+    - sh -c 'go run . completion "zsh" >./completions/{{ .ProjectName }}.zsh'
+    - sh -c 'go run . completion "fish" >./completions/{{ .ProjectName }}.fish'
+    - sh -c 'go run . man | gzip -c >./manpages/{{ .ProjectName }}.1.gz'
+
 builds:
-  - binary: target
-    id: target
+  - id: default
+    env:
+      - CGO_ENABLED=0
+    main: .
+    binary: baoctx
     ldflags:
-      - "-X github.com/adfinis/baoctx/cmd.version={{.Version}}"
+      - -s
+      - -w
+      - -X main.Version={{ .Version }}
+      - -X main.Commit={{ .Commit }}
+    flags:
+      - -trimpath
     goos:
-      - darwin
       - linux
+      - darwin
     goarch:
       - amd64
       - arm64
-    env:
-      - CGO_ENABLED=0
-    flags:
-      - -mod=vendor
 
-release:
-  prerelease: auto
-
-universal_binaries:
-  - replace: true
+archives:
+  - id: default
+    name_template: "baoctx-v{{ .Version }}-{{ .Os }}-{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}{{ if .Mips }}-{{ .Mips }}{{ end }}"
+    ids:
+      - default
+    wrap_in_directory: true
+    files:
+      - LICENSE
+      - README.md
+      - completions/*
+      - manpages/*
 
 checksum:
   name_template: "checksums.txt"
+
+nfpms:
+  - file_name_template: "baoctx-v{{ .Version }}-{{ .Os }}-{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}{{ if .Mips }}-{{ .Mips }}{{ end }}"
+    vendor: adfinis
+    homepage: "https://github.com/adfinis/baoctx"
+    maintainer: "jonahz <jonah.zuercher@adfinis.com>"
+    description: "SSH client for the Bastion"
+    license: "Apache-2.0"
+    formats:
+      - deb
+      - rpm
+      - archlinux
+    dependencies:
+      - openssh-client
+    contents:
+      - src: ./completions/{{ .ProjectName }}.bash
+        dst: /etc/bash_completion.d/{{ .ProjectName }}
+      - src: ./completions/{{ .ProjectName }}.fish
+        dst: /usr/share/fish/vendor_completions.d/{{ .ProjectName }}.fish
+      - src: ./completions/{{ .ProjectName }}.zsh
+        dst: /usr/share/zsh/site-functions/_{{ .ProjectName }}
+      - src: ./manpages/{{ .ProjectName }}.1.gz
+        dst: /usr/share/man/man1/{{ .ProjectName }}-cli.1.gz
+    overrides:
+      rpm:
+        dependencies:
+          - openssh-clients
+      archlinux:
+        dependencies:
+          - openssh
+
+aurs:
+  - name: "baoctx-bin"
+    homepage: "https://github.com/adfinis/baoctx"
+    description: "SSH client for the Bastion"
+    maintainers:
+      - "jonahz <jonah.zuercher@adfinis.com>"
+    license: "Apache-2.0"
+    private_key: "{{ .Env.AUR_KEY }}"
+    git_url: "ssh://aur@aur.archlinux.org/baoctx-bin.git"
+    depends:
+      - openssh
+    package: |-
+      cd ./{{ .ProjectName }}-v{{ .Version }}-linux-amd64
+      # bin
+      install -Dm755 "./{{ .ProjectName }}" "${pkgdir}/usr/bin/{{ .ProjectName }}"
+      # license
+      install -Dm644 "./LICENSE" "${pkgdir}/usr/share/licenses/{{ .ProjectName }}/LICENSE"
+      # completions
+      mkdir -p "${pkgdir}/usr/share/bash-completion/completions/"
+      mkdir -p "${pkgdir}/usr/share/zsh/site-functions/"
+      mkdir -p "${pkgdir}/usr/share/fish/vendor_completions.d/"
+      install -Dm644 "./completions/{{ .ProjectName }}.bash" "${pkgdir}/usr/share/bash-completion/completions/{{ .ProjectName }}"
+      install -Dm644 "./completions/{{ .ProjectName }}.zsh" "${pkgdir}/usr/share/zsh/site-functions/_{{ .ProjectName }}"
+      install -Dm644 "./completions/{{ .ProjectName }}.fish" "${pkgdir}/usr/share/fish/vendor_completions.d/{{ .ProjectName }}.fish"
+      # manpages
+      install -Dm644 "./manpages/{{ .ProjectName }}.1.gz" "${pkgdir}/usr/share/man/man1/{{ .ProjectName }}-cli.1.gz"
+      # readme
+      mkdir -pv "${pkgdir}/usr/share/doc/{{ .ProjectName }}/"
+      install -Dm644 README* "${pkgdir}/usr/share/doc/{{ .ProjectName }}/"
+
+snapshot:
+  version_template: "{{ incpatch .Version }}-devel"
+
+changelog:
+  sort: asc
+  use: github
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+  groups:
+    - title: "New Features"
+      regexp: "^.*feat[(\\w)]*:+.*$"
+      order: 0
+    - title: "Bug fixes"
+      regexp: "^.*fix[(\\w)]*:+.*$"
+      order: 10
+    - title: Others
+      order: 999
+
+sboms:
+  - id: default
+    artifacts: archive
+  - id: package
+    artifacts: package

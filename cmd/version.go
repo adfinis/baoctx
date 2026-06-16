@@ -6,7 +6,7 @@ var versionCmd = &cobra.Command{
 	Use:           "version",
 	Short:         "Show current installed version of target-cli",
 	Long:          `Show current installed version of target-cli.`,
-	Example:       `target vault update example --endpoint="https://example2-vault.com:8200" --token="t.loejwikdjuidfhjdi"`,
+	Example:       `baoctx version`,
 	Args:          cobra.NoArgs,
 	SilenceErrors: true,
 	RunE: func(cmd *cobra.Command, args []string) error {
