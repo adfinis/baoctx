@@ -56,6 +56,16 @@ var openbaoSetDefaultCmd = &cobra.Command{
 	Short:                 "set a default context profile for OpenBao ",
 	Long:                  `set a default context profile for OpenBao.`,
 	DisableFlagsInUseLine: true,
+	ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+		if len(args) != 0 {
+			return nil, cobra.ShellCompDirectiveNoFileComp
+		}
+		var profiles []string
+		for name := range c.OpenBao {
+			profiles = append(profiles, name)
+		}
+		return profiles, cobra.ShellCompDirectiveNoFileComp
+	},
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 1 {
 			return errors.New("requires a name argument")

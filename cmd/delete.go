@@ -13,6 +13,16 @@ var deleteOpenbaoCmd = &cobra.Command{
 	Short:   "delete removes a context profile",
 	Long:    `delete a context with the delete command.`,
 	Example: `baoctx delete example`,
+	ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+		if len(args) != 0 {
+			return nil, cobra.ShellCompDirectiveNoFileComp
+		}
+		var profiles []string
+		for name := range c.OpenBao {
+			profiles = append(profiles, name)
+		}
+		return profiles, cobra.ShellCompDirectiveNoFileComp
+	},
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 1 {
 			return errors.New("requires a name argument")

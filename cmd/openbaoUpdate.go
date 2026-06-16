@@ -16,6 +16,16 @@ var openbaoUpdateCmd = &cobra.Command{
 	Short:   "Update an existing context",
 	Long:    `The update command allows you to modify an existing context.`,
 	Example: `baoctx update example --endpoint="https://example2-openbao.com:8200" --token="t.loejwikdjuidfhjdi"`,
+	ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+		if len(args) != 0 {
+			return nil, cobra.ShellCompDirectiveNoFileComp
+		}
+		var profiles []string
+		for name := range c.OpenBao {
+			profiles = append(profiles, name)
+		}
+		return profiles, cobra.ShellCompDirectiveNoFileComp
+	},
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 1 {
 			return errors.New("requires a name argument")

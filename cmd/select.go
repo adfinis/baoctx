@@ -111,6 +111,16 @@ var selectOpenbaoCmd = &cobra.Command{
 	Short:   "select a context profile",
 	Long:    `select a context profile to use with the select command.`,
 	Example: `baoctx select example`,
+	ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+		if len(args) != 0 {
+			return nil, cobra.ShellCompDirectiveNoFileComp
+		}
+		var profiles []string
+		for name := range c.OpenBao {
+			profiles = append(profiles, name)
+		}
+		return profiles, cobra.ShellCompDirectiveNoFileComp
+	},
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 1 {
 			return errors.New("requires a name argument")
