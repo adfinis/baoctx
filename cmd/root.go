@@ -6,7 +6,7 @@ import (
 	"os"
 	"reflect"
 
-	"github.com/devops-rob/target-cli/pkg/targetdir"
+	"github.com/adfinis/baoctx/pkg/targetdir"
 	"github.com/spf13/cobra"
 
 	homedir "github.com/mitchellh/go-homedir"
@@ -156,11 +156,7 @@ func init() {
 	targetdir.TargetHomeCreate()
 
 	rootCmd.AddCommand(vaultCmd)
-	rootCmd.AddCommand(nomadCmd)
-	rootCmd.AddCommand(consulCmd)
 	rootCmd.AddCommand(configlCmd)
-	rootCmd.AddCommand(boundaryCmd)
-	rootCmd.AddCommand(terraformCmd)
 	rootCmd.AddCommand(versionCmd)
 
 }

@@ -2,7 +2,7 @@ builds:
   - binary: target
     id: target
     ldflags:
-      - "-X github.com/devops-rob/target-cli/cmd.version={{.Version}}"
+      - "-X github.com/adfinis/baoctx/cmd.version={{.Version}}"
     goos:
       - darwin
       - linux
@@ -20,17 +20,5 @@ release:
 universal_binaries:
   - replace: true
 
-brews:
-  -
-    name: target
-    homepage: "https://github.com/devops-rob/target-cli"
-    tap:
-      owner: devops-rob
-      name: homebrew-tap
-    commit_author:
-      name: devops-rob
-      email: robert.barnes@devopsrob.com
-    commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
-    license: "MIT"
 checksum:
-  name_template: 'checksums.txt'
+  name_template: "checksums.txt"

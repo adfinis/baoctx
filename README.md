@@ -1,6 +1,6 @@
 # Target CLI
 
-[![goreleaser](https://github.com/devops-rob/target-cli/actions/workflows/release.yaml/badge.svg)](https://github.com/devops-rob/target-cli/actions/workflows/release.yaml)
+[![goreleaser](https://github.com/adfinis/baoctx/actions/workflows/release.yaml/badge.svg)](https://github.com/adfinis/baoctx/actions/workflows/release.yaml)
 
 A CLI tool to manage context profiles for HashiCorp products.  This allows you to save connection and configuration details, which would otherwise be set using Environment Variables into context profiles and gives the ability to switch between different profiles as required and set default context profiles.
 
@@ -24,7 +24,7 @@ curl https://raw.githubusercontent.com/devops-rob/target-cli/main/install.sh | b
 
 Binaries can be downloaded for the releases page.
 
-[https://github.com/devops-rob/target-cli/releases](https://github.com/devops-rob/target-cli/releases)
+[https://github.com/adfinis/baoctx/releases](https://github.com/adfinis/baoctx/releases)
 
 ### Example use case
 
