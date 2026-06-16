@@ -1,9 +1,10 @@
 package cmd
 
 import (
-	"os"
+	"fmt"
 
-	"github.com/olekukonko/tablewriter"
+	lipgloss "charm.land/lipgloss/v2"
+	"charm.land/lipgloss/v2/table"
 	"github.com/spf13/cobra"
 )
 
@@ -13,21 +14,14 @@ var listOpenbaoCmd = &cobra.Command{
 	Long:    `list all context profiles for OpenBao using the list command`,
 	Example: `baoctx list`,
 	Run: func(cmd *cobra.Command, args []string) {
+		t := table.New().
+			Border(lipgloss.NormalBorder()).
+			Headers("Profile Name", "Endpoint")
 
-		table := tablewriter.NewWriter(os.Stdout)
-		table.SetHeader([]string{
-			"Profile Name",
-			"Endpoint",
-		})
-		table.SetBorders(tablewriter.Border{Left: true, Top: true, Right: true, Bottom: true})
-
-		for i, e := range c.OpenBao {
-			data := []string{
-				i,
-				e.Endpoint,
-			}
-			table.Append(data)
+		for name, e := range c.OpenBao {
+			t.Row(name, e.Endpoint)
 		}
-		table.Render()
+
+		fmt.Println(t)
 	},
 }
