@@ -75,10 +75,12 @@ Example:
 		"update",
 		"set-default",
 		"config",
-		"version",
 	},
 	Args:    cobra.OnlyValidArgs,
 	Version: version,
+	CompletionOptions: cobra.CompletionOptions{
+		HiddenDefaultCmd: true,
+	},
 }
 
 // Root returns the cobra root command.
@@ -97,7 +99,6 @@ func init() {
 	rootCmd.AddCommand(openbaoUpdateCmd)
 	rootCmd.AddCommand(listOpenbaoCmd)
 	rootCmd.AddCommand(configlCmd)
-	rootCmd.AddCommand(versionCmd)
 
 }
 
