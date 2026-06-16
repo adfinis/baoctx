@@ -53,7 +53,7 @@ nfpms:
     vendor: adfinis
     homepage: "https://github.com/adfinis/baoctx"
     maintainer: "jonahz <jonah.zuercher@adfinis.com>"
-    description: "SSH client for the Bastion"
+    description: "A CLI tool to manage context profiles for OpenBao"
     license: "Apache-2.0"
     formats:
       - deb

@@ -12,6 +12,7 @@ import (
 	"strings"
 
 	"github.com/adfinis/baoctx/pkg/targetdir"
+	"github.com/adrg/xdg"
 	"github.com/spf13/cobra"
 )
 
@@ -226,12 +227,9 @@ var selectOpenbaoCmd = &cobra.Command{
 			}
 		}
 		if activeToken != "" {
-			home, err := os.UserHomeDir()
-			if err == nil {
-				tokenFile := filepath.Join(home, ".vault-token")
-				if err := os.WriteFile(tokenFile, []byte(activeToken), 0600); err != nil {
-					fmt.Fprintf(os.Stderr, "warning: could not write ~/.vault-token: %v\n", err)
-				}
+			tokenFile := filepath.Join(xdg.Home, ".vault-token")
+			if err := os.WriteFile(tokenFile, []byte(activeToken), 0600); err != nil {
+				fmt.Fprintf(os.Stderr, "warning: could not write ~/.vault-token: %v\n", err)
 			}
 		}
 	},

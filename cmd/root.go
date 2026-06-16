@@ -7,9 +7,9 @@ import (
 	"reflect"
 
 	"github.com/adfinis/baoctx/pkg/targetdir"
+	"github.com/adrg/xdg"
 	"github.com/spf13/cobra"
 
-	homedir "github.com/mitchellh/go-homedir"
 	"github.com/mitchellh/mapstructure"
 	"github.com/spf13/viper"
 )
@@ -119,14 +119,7 @@ func sliceOfMapsToMapHookFunc() mapstructure.DecodeHookFunc {
 }
 
 func initConfig() {
-	// Find home directory.
-	home, err := homedir.Dir()
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-
-	viper.AddConfigPath(home)
+	viper.AddConfigPath(xdg.Home)
 	viper.AddConfigPath("$HOME/.target")
 	viper.SetConfigName("profiles")
 	viper.SetConfigType("json")

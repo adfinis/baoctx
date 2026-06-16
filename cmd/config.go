@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/mitchellh/go-homedir"
+	"github.com/adrg/xdg"
 	"github.com/spf13/cobra"
 )
 
@@ -53,13 +53,7 @@ var configlCmd = &cobra.Command{
 			log.Fatalf("scanner error: %s", err)
 		}
 
-		home, err := homedir.Dir()
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
-
-		fullTargetPath := home + "/.target/defaults/*"
+		fullTargetPath := xdg.Home + "/.target/defaults/*"
 
 		configScript := `
 # Target CLI Defaults

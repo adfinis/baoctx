@@ -3,8 +3,8 @@ module github.com/adfinis/baoctx
 go 1.24.2
 
 require (
+	github.com/adrg/xdg v0.5.3
 	github.com/charmbracelet/fang v1.0.0
-	github.com/mitchellh/go-homedir v1.1.0
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/pkg/errors v0.9.1

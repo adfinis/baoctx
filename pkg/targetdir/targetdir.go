@@ -3,24 +3,13 @@ package targetdir
 import (
 	"fmt"
 	"os"
-	"runtime"
+
+	"github.com/adrg/xdg"
 )
 
-// HomeFolder returns the users homefolder this will be $HOME on windows and mac and
-// USERPROFILE on windows
-func HomeFolder() string {
-	if runtime.GOOS == "windows" {
-		return os.Getenv("USERPROFILE")
-
-	}
-
-	return os.Getenv("HOME")
-}
-
-// TargetHome returns the location of the target
-// folder, usually $HOME/.target
+// TargetHome returns the location of the target folder, usually $HOME/.target
 func TargetHome() string {
-	return fmt.Sprintf("%s/.target", HomeFolder())
+	return fmt.Sprintf("%s/.target", xdg.Home)
 }
 
 // TargetHomeCreate checks for the target directory
