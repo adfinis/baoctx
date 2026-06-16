@@ -145,13 +145,6 @@ var openbaoSetDefaultCmd = &cobra.Command{
 			exportCommandStr = append(exportCommandStr, shellClientTimeout)
 		}
 
-		var shellClusterAddr string
-		clusterAddr := context.ClusterAddr
-		if clusterAddr != "" {
-			shellClusterAddr = fmt.Sprintf("export BAO_CLUSTER_ADDR=%s", clusterAddr)
-			exportCommandStr = append(exportCommandStr, shellClusterAddr)
-		}
-
 		var shellCommandLogLevel string
 		logLevel := context.LogLevel
 		if logLevel != "" {
@@ -164,13 +157,6 @@ var openbaoSetDefaultCmd = &cobra.Command{
 		if maxRetries != "" {
 			shellCommandMaxRetries = fmt.Sprintf("export BAO_MAX_RETRIES=%s", maxRetries)
 			exportCommandStr = append(exportCommandStr, shellCommandMaxRetries)
-		}
-
-		var shellCommandRedirectAddr string
-		redirectAddr := context.RedirectAddr
-		if redirectAddr != "" {
-			shellCommandRedirectAddr = fmt.Sprintf("export BAO_REDIRECT_ADDR=%s", redirectAddr)
-			exportCommandStr = append(exportCommandStr, shellCommandRedirectAddr)
 		}
 
 		var shellCommandServerName string

@@ -38,10 +38,8 @@ var openbaoCreateCmd = &cobra.Command{
 			Namespace:        openbaoNamespace,
 			SkipVerify:       openbaoSkipVerify,
 			ClientTimeout:    openbaoClientTimeout,
-			ClusterAddr:      openbaoClusterAddr,
 			LogLevel:         openbaoLogLevel,
 			MaxRetries:       openbaoMaxRetries,
-			RedirectAddr:     openbaoRedirectAddr,
 			TlsServerName:    openbaoTlsServerName,
 			CliNoColour:      openbaoCliNoColour,
 			RateLimit:        openbaoRateLimit,
@@ -80,10 +78,8 @@ func init() {
 	openbaoCreateCmd.PersistentFlags().StringVar(&openbaoNamespace, "namespace", "", "set openbao namespace to use for command")
 	openbaoCreateCmd.PersistentFlags().StringVar(&openbaoSkipVerify, "skip-verify", "", "Do not verify OpenBao's presented certificate before communicating with it")
 	openbaoCreateCmd.PersistentFlags().StringVar(&openbaoClientTimeout, "client-timeout", "", "Set the Timeout variable")
-	openbaoCreateCmd.PersistentFlags().StringVar(&openbaoClusterAddr, "cluster-addr", "", "Set the address that should be used for other cluster members to connect to this node when in High Availability mode")
 	openbaoCreateCmd.PersistentFlags().StringVar(&openbaoLogLevel, "log-level", "", "Set the OpenBao server's log level")
 	openbaoCreateCmd.PersistentFlags().StringVar(&openbaoMaxRetries, "max-retries", "", "Set the maximum number of retries when certain error codes are encountered")
-	openbaoCreateCmd.PersistentFlags().StringVar(&openbaoRedirectAddr, "redirect-addr", "", "Set the address that should be used when clients are redirected to this node when in High Availability mode")
 	openbaoCreateCmd.PersistentFlags().StringVar(&openbaoTlsServerName, "tls-server-name", "", "Set the name to use as the SNI host when connecting via TLS")
 	openbaoCreateCmd.PersistentFlags().StringVar(&openbaoCliNoColour, "cli-no-colour", "", "If provided, OpenBao output will not include ANSI color escape sequence characters")
 	openbaoCreateCmd.PersistentFlags().StringVar(&openbaoRateLimit, "rate-limit", "", "Set the rate at which the openbao command sends requests to OpenBao")

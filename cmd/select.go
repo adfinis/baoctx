@@ -184,20 +184,12 @@ var selectOpenbaoCmd = &cobra.Command{
 			exportCommands = append(exportCommands, fmt.Sprintf("export BAO_CLIENT_TIMEOUT=%s", context.ClientTimeout))
 		}
 
-		if context.ClusterAddr != "" {
-			exportCommands = append(exportCommands, fmt.Sprintf("export BAO_CLUSTER_ADDR=%s", context.ClusterAddr))
-		}
-
 		if context.LogLevel != "" {
 			exportCommands = append(exportCommands, fmt.Sprintf("export BAO_LOG_LEVEL=%s", context.LogLevel))
 		}
 
 		if context.MaxRetries != "" {
 			exportCommands = append(exportCommands, fmt.Sprintf("export BAO_MAX_RETRIES=%s", context.MaxRetries))
-		}
-
-		if context.RedirectAddr != "" {
-			exportCommands = append(exportCommands, fmt.Sprintf("export BAO_REDIRECT_ADDR=%s", context.RedirectAddr))
 		}
 
 		if context.TlsServerName != "" {

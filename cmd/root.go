@@ -35,10 +35,8 @@ type OpenBao struct {
 	Namespace        string `json:"namespace,omitempty" mapstructure:"namespace"`
 	SkipVerify       string `json:"skip_verify,omitempty" mapstructure:"skip_verify"`
 	ClientTimeout    string `json:"client_timeout,omitempty" mapstructure:"client_timeout"`
-	ClusterAddr      string `json:"cluster_addr,omitempty" mapstructure:"cluster_addr"`
 	LogLevel         string `json:"log_level,omitempty" mapstructure:"log_level"`
 	MaxRetries       string `json:"max_retries,omitempty" mapstructure:"max_retries"`
-	RedirectAddr     string `json:"redirect_addr,omitempty" mapstructure:"redirect_addr"`
 	TlsServerName    string `json:"tls_server_name,omitempty" mapstructure:"tls_server_name"`
 	CliNoColour      string `json:"cli_no_colour,omitempty" mapstructure:"cli_no_colour"`
 	RateLimit        string `json:"rate_limit,omitempty" mapstructure:"rate_limit"`
