@@ -1,6 +1,7 @@
 # baoctx
 
-[![goreleaser](https://github.com/adfinis/baoctx/actions/workflows/release.yaml/badge.svg)](https://github.com/adfinis/baoctx/actions/workflows/release.yaml)
+[![goreleaser](https://github.com/adfinis/baoctx/actions/workflows/release.yml/badge.svg)](https://github.com/adfinis/baoctx/actions/workflows/release.yml)
+[![lint](https://github.com/adfinis/baoctx/actions/workflows/lint.yml/badge.svg)](https://github.com/adfinis/baoctx/actions/workflows/lint.yml)
 
 A CLI tool to manage context profiles for [OpenBao](https://openbao.org). This allows you to save connection and configuration details, which would otherwise be set using environment variables — into named context profiles, and easily switch between them.
 
