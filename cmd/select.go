@@ -110,7 +110,7 @@ var selectOpenbaoCmd = &cobra.Command{
 	Use:     "select [name]",
 	Short:   "select a context profile",
 	Long:    `select a context profile to use with the select command.`,
-	Example: `baoctx openbao select example`,
+	Example: `baoctx select example`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 1 {
 			return errors.New("requires a name argument")

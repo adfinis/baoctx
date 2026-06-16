@@ -68,7 +68,12 @@ Example:
 	an openbao-dev context could point to
 	https://example-dev-openbao.com:8200 with a token value of s.jidjibndiyuqepjepwo`,
 	ValidArgs: []string{
-		"openbao",
+		"create",
+		"delete",
+		"list",
+		"select",
+		"update",
+		"set-default",
 		"config",
 		"version",
 	},
@@ -85,7 +90,12 @@ func init() {
 	cobra.OnInitialize(initConfig)
 	targetdir.TargetHomeCreate()
 
-	rootCmd.AddCommand(openbaoCmd)
+	rootCmd.AddCommand(openbaoCreateCmd)
+	rootCmd.AddCommand(deleteOpenbaoCmd)
+	rootCmd.AddCommand(openbaoSetDefaultCmd)
+	rootCmd.AddCommand(selectOpenbaoCmd)
+	rootCmd.AddCommand(openbaoUpdateCmd)
+	rootCmd.AddCommand(listOpenbaoCmd)
 	rootCmd.AddCommand(configlCmd)
 	rootCmd.AddCommand(versionCmd)
 

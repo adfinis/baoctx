@@ -40,22 +40,6 @@ var (
 	openbaoOidcCallbackMode string
 )
 
-var openbaoCmd = &cobra.Command{
-	Use:   "openbao",
-	Short: "Manage OpenBao context profiles ",
-	Long:  `Manage OpenBao context profiles.`,
-	ValidArgs: []string{
-		"create",
-		"delete",
-		"list",
-		"select",
-		"update",
-		"set-default",
-	},
-	//Args:                  cobra.OnlyValidArgs,
-	DisableFlagsInUseLine: true,
-}
-
 // writeDefaultScript writes content to path, truncating any existing file.
 func writeDefaultScript(path, content string) error {
 	f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
@@ -279,11 +263,4 @@ var openbaoSetDefaultCmd = &cobra.Command{
 }
 
 func init() {
-	openbaoCmd.AddCommand(openbaoCreateCmd)
-	openbaoCmd.AddCommand(deleteOpenbaoCmd)
-	openbaoCmd.AddCommand(openbaoSetDefaultCmd)
-	openbaoCmd.AddCommand(selectOpenbaoCmd)
-	openbaoCmd.AddCommand(openbaoUpdateCmd)
-	openbaoCmd.AddCommand(listOpenbaoCmd)
-
 }

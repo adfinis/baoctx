@@ -14,7 +14,7 @@ var openbaoCreateCmd = &cobra.Command{
 	Use:     "create [name]",
 	Short:   "create command creates a context profile",
 	Long:    `create a context profile with the create command.`,
-	Example: `baoctx openbao create example --endpoint="https://example-openbao.com:8200" --token="s.giqoewbnmdjalkjk"`,
+	Example: `baoctx create example --endpoint="https://example-openbao.com:8200" --token="s.giqoewbnmdjalkjk"`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 1 {
 			return errors.New("requires a name argument")

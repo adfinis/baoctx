@@ -27,7 +27,7 @@ A context profile is a named set of configuration parameters for an OpenBao inst
 ### Example usage
 
 ```shell
-eval $(baoctx openbao select prod)
+eval $(baoctx select prod)
 ```
 
 ### Supported Tools
@@ -42,6 +42,12 @@ eval $(baoctx openbao select prod)
 baoctx config --path "~/.zshrc"
 ```
 
+#### Using fish instead of bash / zsh
+
+```shell
+baoctx config --path "~/.config/fish/config.fish" --shell fish
+```
+
 This appends a small helper script that sources all defaults when a new shell session starts.
 
 ### OpenBao
@@ -49,7 +55,7 @@ This appends a small helper script that sources all defaults when a new shell se
 #### Create Example
 
 ```shell
-baoctx openbao create staging \
+baoctx create staging \
   --endpoint "https://staging-openbao.example.com:8200" \
   --cacert "/path/to/ca.pem" \
   --cert "/path/to/client.pem" \
@@ -60,10 +66,21 @@ baoctx openbao create staging \
   --format "json"
 ```
 
+#### Create Example with OIDC
+```shell
+baoctx create testing \
+        --endpoint https://testing-openbao.example.com:8200 \
+        --auth-method oidc \
+        --oidc-callback-host localhost \
+        --oidc-listen-addr 127.0.0.1 \
+        --oidc-role device \
+        --oidc-callback-mode device
+```
+
 #### Update Example
 
 ```shell
-baoctx openbao update staging \
+baoctx update staging \
   --endpoint "https://staging-openbao.example.com:8200" \
   --cacert "/path/to/new-ca.pem" \
   --skip-verify true \
@@ -73,13 +90,13 @@ baoctx openbao update staging \
 #### Delete Example
 
 ```shell
-baoctx openbao delete staging
+baoctx delete staging
 ```
 
 #### List Example
 
 ```shell
-baoctx openbao list
+baoctx list
 ```
 
 ### Setting Default Context Profiles
@@ -87,7 +104,7 @@ baoctx openbao list
 Set a default context profile with the `set-default` sub command:
 
 ```shell
-baoctx openbao set-default staging
+baoctx set-default staging
 ```
 
 Once a default has been set, new shell sessions will spawn with those environment variables already exported.
@@ -97,11 +114,11 @@ Once a default has been set, new shell sessions will spawn with those environmen
 Switch context using the `select` sub command:
 
 ```shell
-baoctx openbao select dev
+baoctx select dev
 ```
 
 This prints all `export BAO_*` commands for the selected context profile. To apply them in the current shell:
 
 ```shell
-eval $(baoctx openbao select dev)
+eval $(baoctx select dev)
 ```

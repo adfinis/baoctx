@@ -15,7 +15,7 @@ var openbaoUpdateCmd = &cobra.Command{
 	Use:     "update [name]",
 	Short:   "Update an existing context",
 	Long:    `The update command allows you to modify an existing context.`,
-	Example: `baoctx openbao update example --endpoint="https://example2-openbao.com:8200" --token="t.loejwikdjuidfhjdi"`,
+	Example: `baoctx update example --endpoint="https://example2-openbao.com:8200" --token="t.loejwikdjuidfhjdi"`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 1 {
 			return errors.New("requires a name argument")

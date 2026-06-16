@@ -11,7 +11,7 @@ var listOpenbaoCmd = &cobra.Command{
 	Use:     "list",
 	Short:   "list all context profiles for OpenBao",
 	Long:    `list all context profiles for OpenBao using the list command`,
-	Example: `baoctx openbao list`,
+	Example: `baoctx list`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		table := tablewriter.NewWriter(os.Stdout)

@@ -12,7 +12,7 @@ var deleteOpenbaoCmd = &cobra.Command{
 	Use:     "delete",
 	Short:   "delete removes a context profile",
 	Long:    `delete a context with the delete command.`,
-	Example: `baoctx openbao delete example`,
+	Example: `baoctx delete example`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 1 {
 			return errors.New("requires a name argument")
