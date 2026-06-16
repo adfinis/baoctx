@@ -50,6 +50,11 @@ var openbaoUpdateCmd = &cobra.Command{
 			Mfa:              openbaoMfa,
 			HttpProxy:        openbaoHttpProxy,
 			DisableRedirects: openbaoDisableRedirects,
+			AuthMethod:       openbaoAuthMethod,
+			OidcCallbackHost: openbaoOidcCallbackHost,
+			OidcListenAddr:   openbaoOidcListenAddr,
+			OidcRole:         openbaoOidcRole,
+			OidcCallbackMode: openbaoOidcCallbackMode,
 		}
 
 		c.OpenBao[args[0]] = v
@@ -87,5 +92,10 @@ func init() {
 	openbaoUpdateCmd.PersistentFlags().StringVar(&openbaoMfa, "mfa", "", "Set the MFA credentials in the format mfa_method_name[:key[=value]]")
 	openbaoUpdateCmd.PersistentFlags().StringVar(&openbaoHttpProxy, "http-proxy", "", "Set the HTTP or HTTPS proxy location which should be used by all requests to access OpenBao")
 	openbaoUpdateCmd.PersistentFlags().StringVar(&openbaoDisableRedirects, "disable-redirects", "", "Prevents the OpenBao client from following redirects")
+	openbaoUpdateCmd.PersistentFlags().StringVar(&openbaoAuthMethod, "auth-method", "", `Authentication method for this context (e.g. "oidc"). Leave empty for static token.`)
+	openbaoUpdateCmd.PersistentFlags().StringVar(&openbaoOidcCallbackHost, "oidc-callback-host", "localhost", "Hostname for the OIDC redirect callback")
+	openbaoUpdateCmd.PersistentFlags().StringVar(&openbaoOidcListenAddr, "oidc-listen-addr", "127.0.0.1", "Listen address for the OIDC redirect callback")
+	openbaoUpdateCmd.PersistentFlags().StringVar(&openbaoOidcRole, "oidc-role", "", "OIDC role to request")
+	openbaoUpdateCmd.PersistentFlags().StringVar(&openbaoOidcCallbackMode, "oidc-callback-mode", "", `OIDC callback mode (e.g. "device" for device-flow)`)
 
 }

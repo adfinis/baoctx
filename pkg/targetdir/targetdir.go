@@ -46,4 +46,9 @@ func TargetHomeCreate() {
 	if _, err := os.Stat(defaultsDir); os.IsNotExist(err) {
 		os.Mkdir(defaultsDir, 0755)
 	}
+
+	tokensDir := targetHome + "/tokens"
+	if _, err := os.Stat(tokensDir); os.IsNotExist(err) {
+		os.Mkdir(tokensDir, 0700)
+	}
 }

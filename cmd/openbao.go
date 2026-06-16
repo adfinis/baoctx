@@ -33,6 +33,11 @@ var (
 	openbaoMfa              string
 	openbaoHttpProxy        string
 	openbaoDisableRedirects string
+	openbaoAuthMethod       string
+	openbaoOidcCallbackHost string
+	openbaoOidcListenAddr   string
+	openbaoOidcRole         string
+	openbaoOidcCallbackMode string
 )
 
 var openbaoCmd = &cobra.Command{
@@ -81,7 +86,7 @@ var openbaoSetDefaultCmd = &cobra.Command{
 
 		var shellCommandToken string
 		token := context.Token
-		if token != "" {
+		if token != "" && context.AuthMethod != "oidc" {
 			shellCommandToken = fmt.Sprintf("export BAO_TOKEN=%s", token)
 			exportCommandStr = append(exportCommandStr, shellCommandToken)
 		}

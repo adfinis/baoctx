@@ -46,6 +46,11 @@ type OpenBao struct {
 	Mfa              string `json:"mfa,omitempty" mapstructure:"mfa"`
 	HttpProxy        string `json:"http_proxy,omitempty" mapstructure:"http_proxy"`
 	DisableRedirects string `json:"disable_redirects,omitempty" mapstructure:"disable_redirects"`
+	AuthMethod       string `json:"auth_method,omitempty" mapstructure:"auth_method"`
+	OidcCallbackHost string `json:"oidc_callback_host,omitempty" mapstructure:"oidc_callback_host"`
+	OidcListenAddr   string `json:"oidc_listen_addr,omitempty" mapstructure:"oidc_listen_addr"`
+	OidcRole         string `json:"oidc_role,omitempty" mapstructure:"oidc_role"`
+	OidcCallbackMode string `json:"oidc_callback_mode,omitempty" mapstructure:"oidc_callback_mode"`
 }
 
 var (
