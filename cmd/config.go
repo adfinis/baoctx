@@ -12,6 +12,7 @@ import (
 )
 
 var path string
+var shellType string
 
 var configlCmd = &cobra.Command{
 	Use:                   "config",
@@ -31,7 +32,7 @@ var configlCmd = &cobra.Command{
 			log.Fatalf("failed to open file: %s", err)
 		}
 
-		//defer file.Close()
+		defer file.Close() //nolint:errcheck
 
 		scanner := bufio.NewScanner(file)
 
@@ -53,17 +54,30 @@ var configlCmd = &cobra.Command{
 			log.Fatalf("scanner error: %s", err)
 		}
 
-		fullTargetPath := xdg.Home + "/.baoctx/defaults/*"
+		defaultsDir := xdg.Home + "/.baoctx/defaults"
 
-		configScript := `
+		var configScript string
+		if shellType == "fish" {
+			configScript = `
+# baoctx Defaults
+for file in ` + defaultsDir + `/*.fish
+    if test -f $file
+        source $file
+    end
+end
+`
+		} else {
+			configScript = `
 # baoctx Defaults
 
-for file in ` + fullTargetPath + `; do
+for file in ` + defaultsDir + `/*.sh; do
     if [ -f "$file" ]; then
         source "$file"
     fi
 done
 `
+		}
+
 		file2, err := os.OpenFile(path, os.O_APPEND|os.O_WRONLY, 0644)
 		if err != nil {
 			log.Fatal(err)
@@ -78,6 +92,7 @@ done
 
 func init() {
 	configlCmd.PersistentFlags().StringVar(&path, "path", "", "Absolute path for your chosen shell configuration file")
+	configlCmd.PersistentFlags().StringVar(&shellType, "shell", "", `Shell type to configure. Supported values: "fish", "posix" (default: "posix")`)
 
 	configlCmd.MarkPersistentFlagRequired("path") //nolint:errcheck
 }

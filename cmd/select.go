@@ -227,6 +227,11 @@ var selectOpenbaoCmd = &cobra.Command{
 			}
 		}
 		if activeToken != "" {
+			if context.AuthMethod != "oidc" {
+				if err := writeProfileToken(profile, activeToken); err != nil {
+					fmt.Fprintf(os.Stderr, "warning: could not cache token for profile %q: %v\n", profile, err)
+				}
+			}
 			tokenFile := filepath.Join(xdg.Home, ".vault-token")
 			if err := os.WriteFile(tokenFile, []byte(activeToken), 0600); err != nil {
 				fmt.Fprintf(os.Stderr, "warning: could not write ~/.vault-token: %v\n", err)

@@ -56,6 +56,17 @@ var openbaoCmd = &cobra.Command{
 	DisableFlagsInUseLine: true,
 }
 
+// writeDefaultScript writes content to path, truncating any existing file.
+func writeDefaultScript(path, content string) error {
+	f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
+	if err != nil {
+		return err
+	}
+	defer f.Close() //nolint:errcheck
+	_, err = f.WriteString(content)
+	return err
+}
+
 var openbaoSetDefaultCmd = &cobra.Command{
 	Use:                   "set-default",
 	Short:                 "set a default context profile for OpenBao ",
@@ -217,26 +228,49 @@ var openbaoSetDefaultCmd = &cobra.Command{
 			exportCommandStr = append(exportCommandStr, shellCommandDisableRedirects)
 		}
 
-		commandStr := strings.Join(exportCommandStr, "; ")
+		profileName := args[0]
+		tokenFilePath := targetdir.TargetHome() + "/tokens/" + profileName
 
-		defaultScript := `
-#!/bin/bash
-` + commandStr
+		// Build export lines for posix sh
+		posixExports := strings.Join(exportCommandStr, "\n")
+		var posixTokenLine string
+		if context.AuthMethod == "oidc" || context.Token != "" {
+			posixTokenLine = fmt.Sprintf(
+				"\nif [ -f \"%s\" ]; then\n  printf '%%s' \"$(cat \"%s\")\" > \"$HOME/.vault-token\"\nfi",
+				tokenFilePath, tokenFilePath,
+			)
+		}
+		posixScript := "#!/bin/sh\n" + posixExports + posixTokenLine + "\n"
 
-		absolutePath := targetdir.TargetHome() + "/defaults/openbao.sh"
+		// Build set -gx lines for fish
+		var fishLines []string
+		for _, e := range exportCommandStr {
+			// convert "export FOO=bar" -> "set -gx FOO bar"
+			trimmed := strings.TrimPrefix(e, "export ")
+			parts := strings.SplitN(trimmed, "=", 2)
+			if len(parts) == 2 {
+				fishLines = append(fishLines, fmt.Sprintf("set -gx %s %s", parts[0], parts[1]))
+			}
+		}
+		fishExports := strings.Join(fishLines, "\n")
+		var fishTokenLine string
+		if context.AuthMethod == "oidc" || context.Token != "" {
+			fishTokenLine = fmt.Sprintf(
+				"\nif test -f \"%s\"\n  printf '%%s' (cat \"%s\") > \"$HOME/.vault-token\"\nend",
+				tokenFilePath, tokenFilePath,
+			)
+		}
+		fishScript := fishExports + fishTokenLine + "\n"
 
-		file, err := os.OpenFile(absolutePath, os.O_CREATE|os.O_WRONLY, 0644)
-		if err != nil {
+		// Write posix script
+		posixPath := targetdir.TargetHome() + "/defaults/openbao.sh"
+		if err := writeDefaultScript(posixPath, posixScript); err != nil {
 			log.Fatal(err)
 		}
-		defer func(file *os.File) {
-			err := file.Close()
-			if err != nil {
-				log.Fatal(err)
-			}
-		}(file)
-		_, err = file.WriteString(defaultScript)
-		if err != nil {
+
+		// Write fish script
+		fishPath := targetdir.TargetHome() + "/defaults/openbao.fish"
+		if err := writeDefaultScript(fishPath, fishScript); err != nil {
 			log.Fatal(err)
 		}
 
