@@ -15,8 +15,8 @@ var path string
 
 var configlCmd = &cobra.Command{
 	Use:                   "config",
-	Short:                 "Configure target CLI for shell sessions",
-	Long:                  `Configure target CLI for shell sessions.`,
+	Short:                 "Configure baoctx for shell sessions",
+	Long:                  `Configure baoctx for shell sessions.`,
 	Args:                  cobra.OnlyValidArgs,
 	DisableFlagsInUseLine: true,
 	Run: func(cmd *cobra.Command, args []string) {
@@ -35,7 +35,7 @@ var configlCmd = &cobra.Command{
 
 		scanner := bufio.NewScanner(file)
 
-		searchText := "# Target CLI Defaults"
+		searchText := "# baoctx Defaults"
 
 		// Loop through each line of the file
 		lineNumber := 0
@@ -44,7 +44,7 @@ var configlCmd = &cobra.Command{
 			line := scanner.Text()
 			// Check if the line contains the specific text
 			if strings.Contains(line, searchText) {
-				log.Fatalf("Target CLI Configuration already written to this file")
+				log.Fatalf("baoctx configuration already written to this file")
 			}
 		}
 
@@ -53,10 +53,10 @@ var configlCmd = &cobra.Command{
 			log.Fatalf("scanner error: %s", err)
 		}
 
-		fullTargetPath := xdg.Home + "/.target/defaults/*"
+		fullTargetPath := xdg.Home + "/.baoctx/defaults/*"
 
 		configScript := `
-# Target CLI Defaults
+# baoctx Defaults
 
 for file in ` + fullTargetPath + `; do
     if [ -f "$file" ]; then

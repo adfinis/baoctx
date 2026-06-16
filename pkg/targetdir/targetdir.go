@@ -7,12 +7,12 @@ import (
 	"github.com/adrg/xdg"
 )
 
-// TargetHome returns the location of the target folder, usually $HOME/.target
+// TargetHome returns the location of the baoctx data folder, usually $HOME/.baoctx
 func TargetHome() string {
-	return fmt.Sprintf("%s/.target", xdg.Home)
+	return fmt.Sprintf("%s/.baoctx", xdg.Home)
 }
 
-// TargetHomeCreate checks for the target directory
+// TargetHomeCreate checks for the baoctx directory
 // and profiles.json file and creates if they don't exist
 func TargetHomeCreate() {
 	var defaultConfig = "{\n\t\"openbao\": {}\n}"

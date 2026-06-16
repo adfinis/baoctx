@@ -4,8 +4,8 @@ import "github.com/spf13/cobra"
 
 var versionCmd = &cobra.Command{
 	Use:           "version",
-	Short:         "Show current installed version of target-cli",
-	Long:          `Show current installed version of target-cli.`,
+	Short:         "Show current installed version of baoctx",
+	Long:          `Show current installed version of baoctx.`,
 	Example:       `baoctx version`,
 	Args:          cobra.NoArgs,
 	SilenceErrors: true,

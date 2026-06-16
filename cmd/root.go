@@ -120,7 +120,7 @@ func sliceOfMapsToMapHookFunc() mapstructure.DecodeHookFunc {
 
 func initConfig() {
 	viper.AddConfigPath(xdg.Home)
-	viper.AddConfigPath("$HOME/.target")
+	viper.AddConfigPath("$HOME/.baoctx")
 	viper.SetConfigName("profiles")
 	viper.SetConfigType("json")
 
