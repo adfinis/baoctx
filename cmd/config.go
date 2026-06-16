@@ -3,16 +3,13 @@ package cmd
 import (
 	"bufio"
 	"fmt"
-	"github.com/mitchellh/go-homedir"
-	"github.com/spf13/cobra"
 	"log"
 	"os"
 	"strings"
-)
 
-type ConfigurationFlags struct {
-	path string `json:"path,omitempty" mapstructure:"path"`
-}
+	"github.com/mitchellh/go-homedir"
+	"github.com/spf13/cobra"
+)
 
 var path string
 
@@ -77,7 +74,7 @@ done
 		if err != nil {
 			log.Fatal(err)
 		}
-		defer file2.Close()
+		defer file2.Close() //nolint:errcheck
 		_, err = file2.WriteString(configScript)
 		if err != nil {
 			log.Fatal(err)
@@ -88,5 +85,5 @@ done
 func init() {
 	configlCmd.PersistentFlags().StringVar(&path, "path", "", "Absolute path for your chosen shell configuration file")
 
-	configlCmd.MarkPersistentFlagRequired("path")
+	configlCmd.MarkPersistentFlagRequired("path") //nolint:errcheck
 }

@@ -29,7 +29,7 @@ func TargetHomeCreate() {
 	var defaultConfig = "{\n\t\"openbao\": {}\n}"
 	targetHome := TargetHome()
 	if _, err := os.Stat(targetHome); os.IsNotExist(err) {
-		os.Mkdir(targetHome, 0755)
+		os.Mkdir(targetHome, 0755) //nolint:errcheck
 	}
 
 	f := fmt.Sprintf("%s/profiles.json", targetHome)
@@ -44,11 +44,11 @@ func TargetHomeCreate() {
 
 	defaultsDir := targetHome + "/defaults"
 	if _, err := os.Stat(defaultsDir); os.IsNotExist(err) {
-		os.Mkdir(defaultsDir, 0755)
+		os.Mkdir(defaultsDir, 0755) //nolint:errcheck
 	}
 
 	tokensDir := targetHome + "/tokens"
 	if _, err := os.Stat(tokensDir); os.IsNotExist(err) {
-		os.Mkdir(tokensDir, 0700)
+		os.Mkdir(tokensDir, 0700) //nolint:errcheck
 	}
 }

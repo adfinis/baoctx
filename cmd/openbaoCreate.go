@@ -97,7 +97,7 @@ func init() {
 	openbaoCreateCmd.PersistentFlags().StringVar(&openbaoOidcRole, "oidc-role", "", "OIDC role to request")
 	openbaoCreateCmd.PersistentFlags().StringVar(&openbaoOidcCallbackMode, "oidc-callback-mode", "", `OIDC callback mode (e.g. "device" for device-flow)`)
 
-	openbaoCreateCmd.MarkPersistentFlagRequired(
+	openbaoCreateCmd.MarkPersistentFlagRequired( //nolint:errcheck
 		"endpoint",
 	)
 

@@ -25,7 +25,10 @@ var deleteOpenbaoCmd = &cobra.Command{
 		if _, exists := c.OpenBao[args[0]]; exists {
 			delete(c.OpenBao, args[0])
 			viper.Set("openbao", c.OpenBao)
-			viper.WriteConfig()
+			if err := viper.WriteConfig(); err != nil {
+				fmt.Printf("Error writing config: %v\n", err)
+				return
+			}
 			fmt.Printf("Deleted OpenBao profile '%s'\n", nameToDelete)
 		} else {
 			fmt.Printf("OpenBao profile '%s' not found\n", nameToDelete)
