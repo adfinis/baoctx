@@ -8,11 +8,12 @@ A CLI tool to manage context profiles for [OpenBao](https://openbao.org). This a
 
 ### Installation
 
-**Releases**
+1. Download the latest release from the [Releases](https://github.com/adfinis/baoctx/releases) page.
+2. Install the package for your distribution:
+   - **Debian/Ubuntu**: `sudo apt install baoctx-<version>.deb`
+   - **Fedora/RHEL**: `sudo dnf install baoctx-<version>.rpm`
+   - **Arch Linux (AUR)**: `yay -S baoctx-bin`.
 
-Binaries can be downloaded from the releases page.
-
-[https://github.com/adfinis/baoctx/releases](https://github.com/adfinis/baoctx/releases)
 
 ### Example use case
 
