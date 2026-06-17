@@ -2,6 +2,7 @@
 
 [![goreleaser](https://github.com/adfinis/baoctx/actions/workflows/release.yml/badge.svg)](https://github.com/adfinis/baoctx/actions/workflows/release.yml)
 [![lint](https://github.com/adfinis/baoctx/actions/workflows/lint.yml/badge.svg)](https://github.com/adfinis/baoctx/actions/workflows/lint.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/adfinis/baoctx)](https://goreportcard.com/report/github.com/adfinis/baoctx)
 
 A CLI tool to manage context profiles for [OpenBao](https://openbao.org). This allows you to save connection and configuration details, which would otherwise be set using environment variables — into named context profiles, and easily switch between them.
 
