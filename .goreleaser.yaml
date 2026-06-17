@@ -81,7 +81,7 @@ nfpms:
 aurs:
   - name: "baoctx-bin"
     homepage: "https://github.com/adfinis/baoctx"
-    description: "SSH client for the Bastion"
+    description: "A CLI tool to manage context profiles for OpenBao"
     maintainers:
       - "jonahz <jonah.zuercher@adfinis.com>"
     license: "Apache-2.0"
