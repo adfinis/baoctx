@@ -59,8 +59,6 @@ nfpms:
       - deb
       - rpm
       - archlinux
-    dependencies:
-      - openssh-client
     contents:
       - src: ./completions/{{ .ProjectName }}.bash
         dst: /etc/bash_completion.d/{{ .ProjectName }}
@@ -70,13 +68,6 @@ nfpms:
         dst: /usr/share/zsh/site-functions/_{{ .ProjectName }}
       - src: ./manpages/{{ .ProjectName }}.1.gz
         dst: /usr/share/man/man1/{{ .ProjectName }}-cli.1.gz
-    overrides:
-      rpm:
-        dependencies:
-          - openssh-clients
-      archlinux:
-        dependencies:
-          - openssh
 
 aurs:
   - name: "baoctx-bin"
@@ -87,8 +78,6 @@ aurs:
     license: "Apache-2.0"
     private_key: "{{ .Env.AUR_KEY }}"
     git_url: "ssh://aur@aur.archlinux.org/baoctx-bin.git"
-    depends:
-      - openssh
     package: |-
       cd ./{{ .ProjectName }}-v{{ .Version }}-linux-amd64
       # bin
