@@ -22,10 +22,8 @@ var (
 	openbaoNamespace        string
 	openbaoSkipVerify       string
 	openbaoClientTimeout    string
-	openbaoClusterAddr      string
 	openbaoLogLevel         string
 	openbaoMaxRetries       string
-	openbaoRedirectAddr     string
 	openbaoTlsServerName    string
 	openbaoCliNoColour      string
 	openbaoRateLimit        string
