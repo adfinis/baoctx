@@ -5,7 +5,7 @@ go 1.25.0
 require (
 	charm.land/lipgloss/v2 v2.0.5
 	github.com/adrg/xdg v0.5.3
-	github.com/charmbracelet/fang v1.0.0
+	github.com/charmbracelet/fang/v2 v2.0.1
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/pkg/errors v0.9.1
 	github.com/spf13/cobra v1.10.2
