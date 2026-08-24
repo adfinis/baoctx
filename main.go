@@ -4,8 +4,8 @@ import (
 	"context"
 	"os"
 
+	"charm.land/fang/v2"
 	"github.com/adfinis/baoctx/cmd"
-	"github.com/charmbracelet/fang"
 )
 
 var (
